@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+  mysql-local:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=shorturl
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+    ports:
+      - 3306:3306
+
+  myapp-main:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ovatleyva/short-url
+    restart: on-failure
+    depends_on:
+      - mysql-local
+    ports:
+      - 8080:8080
